@@ -6,7 +6,7 @@ import java.util.List;
 
 public class UnavailableIngredientsException extends RuntimeException {
 
-    List<Ingredient> unavailableIngredientsException;
+    private List<Ingredient> unavailableIngredientsException;
 
     public UnavailableIngredientsException(List<Ingredient> unavailableIngredientsException) {
 

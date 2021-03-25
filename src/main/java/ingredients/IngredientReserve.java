@@ -47,8 +47,8 @@ public class IngredientReserve {
             throw new InsufficientIngredientsQuantityException(insufficientIngredients);
         }
 
-        recipe.getIngredients().forEach((ingredient, integer) -> {
-            setIngredientQuantity(ingredient, (ingredientQuantityMap.get(ingredient) - recipe.getIngredients().get(ingredient)));
+        recipe.getIngredients().forEach((ingredient, requiredQuantity) -> {
+            setIngredientQuantity(ingredient, (ingredientQuantityMap.get(ingredient) - requiredQuantity));
         });
     }
 }

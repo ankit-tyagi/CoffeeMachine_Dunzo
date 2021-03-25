@@ -2,6 +2,7 @@ import beverages.BeverageCatalogue;
 import coffeemachine.CoffeeMachine;
 import ingredients.IngredientReserve;
 import javafx.util.Pair;
+import org.junit.After;
 import org.junit.Before;
 
 import java.util.Collection;
@@ -46,6 +47,13 @@ public class AbstractDispenseFunctionalTest {
         }
     }
 
+    @After
+    public void destroy() throws InterruptedException {
+
+        Thread.sleep(1000);
+
+        coffeeMachine.close();
+    }
 
     public String getRandomBeverageToOrder() {
 

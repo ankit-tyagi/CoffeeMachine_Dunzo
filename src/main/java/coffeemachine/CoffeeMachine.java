@@ -18,18 +18,20 @@ public class CoffeeMachine implements AutoCloseable {
     private final BeverageCatalogue beverageCatalogue;
     private final ExecutorService executorService;
 
-    public CoffeeMachine(int n, IngredientReserve ingredientReserve, BeverageCatalogue beverageCatalogue) {
+    public CoffeeMachine(int dispenseOutlets, IngredientReserve ingredientReserve, BeverageCatalogue beverageCatalogue) {
 
-        this.executorService = Executors.newFixedThreadPool(n);
+        this.executorService = Executors.newFixedThreadPool(dispenseOutlets);
         this.ingredientReserve = ingredientReserve;
         this.beverageCatalogue = beverageCatalogue;
     }
 
     public void fillIngredient(String ingredientName, Integer quantity) {
+
         this.ingredientReserve.setIngredientQuantity(new Ingredient(ingredientName), quantity);
     }
 
     public void addNewBeverage(String beverageName, List<Pair<String, Integer>> ingredients) {
+
         this.beverageCatalogue.registerNewBeverage(beverageName, ingredients);
     }
 
@@ -48,15 +50,15 @@ public class CoffeeMachine implements AutoCloseable {
     public void close() {
 
         this.executorService.shutdown();
-        try {
-            if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
-                executorService.shutdownNow();
+            try {
                 if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
-                    System.err.println("Executor Service did not shutdown");
+                    executorService.shutdownNow();
+                    if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+                        System.err.println("Executor Service did not shutdown");
+                    }
                 }
-            }
-        } catch (InterruptedException ex) {
-            executorService.shutdownNow();
+            } catch (InterruptedException ex) {
+                executorService.shutdownNow();
             Thread.currentThread().interrupt(); // Preserve interrupt status
         }
     }

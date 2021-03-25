@@ -6,7 +6,7 @@ import java.util.List;
 
 public class InsufficientIngredientsQuantityException extends RuntimeException {
 
-    List<Ingredient> insufficientIngredients;
+    private List<Ingredient> insufficientIngredients;
 
     public InsufficientIngredientsQuantityException(List<Ingredient> insufficientIngredients) {
 
