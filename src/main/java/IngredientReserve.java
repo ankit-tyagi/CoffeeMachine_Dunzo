@@ -32,8 +32,11 @@ public class IngredientReserve {
             }
         }
 
-        if (!unavailableIngredients.isEmpty()) {
+        if (!unavailableIngredients.isEmpty() || !insufficientIngredients.isEmpty()) {
             // TODO: throw exception
         }
+
+        // Dispense --> Update Quantity Map
+        // TODO: Update quantity map
     }
 }
