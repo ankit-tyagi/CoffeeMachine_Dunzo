@@ -27,9 +27,9 @@ public class BrewBeverageTask implements Runnable {
             this.ingredientReserve.dispenseIngredientsForRecipe(recipe);
             System.out.println(beverageName + " is prepared");
         } catch (InsufficientIngredientsQuantityException ex){
-            System.out.println(beverageName + " cannot be prepared because " + ex.getInsufficientIngredients() + " is/are insufficient.");
+            System.out.println(beverageName + " cannot be prepared because " + ex.getInsufficientIngredients() + " is insufficient.");
         } catch (UnavailableIngredientsException ex) {
-            System.out.println(beverageName + " cannot be prepared because " + ex.getUnavailableIngredientsException() + " is/are unavailable.");
+            System.out.println(beverageName + " cannot be prepared because " + ex.getUnavailableIngredientsException() + " is unavailable.");
         }
     }
 }

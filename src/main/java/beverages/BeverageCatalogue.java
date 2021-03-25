@@ -3,6 +3,7 @@ package beverages;
 import ingredients.Ingredient;
 import javafx.util.Pair;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,5 +32,10 @@ public class BeverageCatalogue {
     public Optional<Beverage> getBeverage(String beverageName) {
 
         return Optional.ofNullable(beverageByName.get(beverageName));
+    }
+
+    public Collection<String> getAllBeverageNames() {
+
+        return beverageByName.keySet();
     }
 }

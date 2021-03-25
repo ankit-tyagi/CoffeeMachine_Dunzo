@@ -29,8 +29,6 @@ public class Ingredient {
 
     @Override
     public String toString() {
-        return "ingredients.Ingredient{" +
-                "name='" + name + '\'' +
-                '}';
+        return name;
     }
 }
