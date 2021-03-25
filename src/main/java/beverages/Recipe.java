@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Combination of ingredients with the their required quantity makes a recipe. Every recipe is always attached to a
+ * beverage.
+ */
 public class Recipe {
 
     private final Map<Ingredient, Integer> ingredients;

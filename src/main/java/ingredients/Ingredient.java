@@ -2,6 +2,9 @@ package ingredients;
 
 import java.util.Objects;
 
+/**
+ * An Ingredient is identified by its name.
+ */
 public class Ingredient {
 
     private final String name;

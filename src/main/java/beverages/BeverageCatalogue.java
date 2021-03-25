@@ -9,6 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * This is the catalogue of all the beverages the coffee machine knows how to brew. Consider this as persistence layer
+ * through which we can read and write about a beverage.
+ */
 public class BeverageCatalogue {
 
     private final Map<String, Beverage> beverageByName;

@@ -2,6 +2,9 @@ package beverages;
 
 import java.util.Objects;
 
+/**
+ * A Beverage is made up of it's name and the recipe using which it can be prepared.
+ */
 public class Beverage {
 
     private final String name;
