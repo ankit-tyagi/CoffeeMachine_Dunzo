@@ -28,8 +28,7 @@ public class BeverageCatalogue {
         if (beverageByName.containsKey(beverageName)) {
             return this.beverageByName.get(beverageName).getRecipe();
         } else {
-            // TODO: throw not found exception
-            return null;
+            throw new BeverageRecipeNotFoundException(beverageName);
         }
     }
 }

@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class IngredientReserve {
 
@@ -33,10 +34,19 @@ public class IngredientReserve {
         }
 
         if (!unavailableIngredients.isEmpty() || !insufficientIngredients.isEmpty()) {
-            // TODO: throw exception
+            if(!unavailableIngredients.isEmpty()){
+                throw new InsufficientIngredientException(unavailableIngredients.iterator().next().getName(), "not available");
+            }else{
+                throw new InsufficientIngredientException(unavailableIngredients.iterator().next().getName(), "not sufficient");
+            }
         }
 
-        // Dispense --> Update Quantity Map
-        // TODO: Update quantity map
+        recipe.getIngredients().forEach(new BiConsumer<Ingredient, Integer>() {
+            @Override
+            public void accept(Ingredient ingredient, Integer integer) {
+                IngredientReserve.this.fillIngredient(ingredient, (ingredientQuantityMap.get(ingredient) - recipe.getIngredients().get(ingredient)));
+            }
+        });
+
     }
 }

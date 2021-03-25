@@ -23,6 +23,19 @@ public class CoffeeMachine {
    }
 
     public void serveBeverage(String beverageName) {
-        // TODO
+
+        try {
+            Recipe recipe = this.beverageCatalogue.getRecipeForBeverage(beverageName);
+            this.ingredientReserve.dispenseIngredientsForRecipe(recipe);
+            makeBeverage(beverageName);
+        } catch (BeverageRecipeNotFoundException ex){
+            System.out.println("Recipe for " + beverageName + " not found");
+        } catch (InsufficientIngredientException ex){
+            System.out.println(beverageName + " cannot be prepared because " + ex.name + " is " + ex.status);
+        }
+    }
+
+    private void makeBeverage(String beverageName) {
+        System.out.println(beverageName + " is prepared");
     }
 }
