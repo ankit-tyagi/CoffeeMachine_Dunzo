@@ -11,6 +11,10 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
+    public Map<Ingredient, Integer> getIngredients() {
+        return ingredients;
+    }
+
     public static RecipeBuilder builder() {
         return new RecipeBuilder();
     }

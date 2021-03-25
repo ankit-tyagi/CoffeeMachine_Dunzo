@@ -1,23 +1,21 @@
 import javafx.util.Pair;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CoffeeMachine {
 
     private int n;
-    private Map<Ingredient, Integer> ingredientQuantity;
+    private IngredientReserve ingredientReserve;
     private Map<String, Beverage> beverageByNameMap;
 
-    public CoffeeMachine(int n) {
+    public CoffeeMachine(int n, IngredientReserve ingredientReserve) {
         this.n = n;
-        this.ingredientQuantity = new HashMap<>();
+        this.ingredientReserve = ingredientReserve;
     }
 
-    public void addIngredients(String ingredientName, Integer quantity) {
-
-        this.ingredientQuantity.put(new Ingredient(ingredientName), quantity);
+    public void fillIngredient(String ingredientName, Integer quantity) {
+        this.ingredientReserve.fillIngredient(new Ingredient(ingredientName), quantity);
     }
 
     public void addRecipe(String beverageName, List<Pair<String, Integer>> ingredients) {
