@@ -1,3 +1,7 @@
+package beverages;
+
+import exceptions.BeverageNotFoundException;
+import ingredients.Ingredient;
 import javafx.util.Pair;
 
 import java.util.HashMap;
@@ -8,7 +12,8 @@ public class BeverageCatalogue {
 
     private final Map<String, Beverage> beverageByName;
 
-    public BeverageCatalogue() {
+    public BeverageCatalogue()
+    {
         this.beverageByName = new HashMap<>();
     }
 
@@ -28,7 +33,7 @@ public class BeverageCatalogue {
         if (beverageByName.containsKey(beverageName)) {
             return this.beverageByName.get(beverageName).getRecipe();
         } else {
-            throw new BeverageRecipeNotFoundException(beverageName);
+            throw new BeverageNotFoundException(beverageName);
         }
     }
 }

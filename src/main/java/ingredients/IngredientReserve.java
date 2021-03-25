@@ -1,18 +1,24 @@
+package ingredients;
+
+import beverages.Recipe;
+import exceptions.InsufficientIngredientsQuantityException;
+import exceptions.UnavailableIngredientsException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
 
 public class IngredientReserve {
 
     private final Map<Ingredient, Integer> ingredientQuantityMap;
 
     public IngredientReserve() {
+
         this.ingredientQuantityMap = new HashMap<>();
     }
 
-    public synchronized void fillIngredient(Ingredient ingredient, Integer quantity) {
+    public synchronized void setIngredientQuantity(Ingredient ingredient, Integer quantity) {
 
         this.ingredientQuantityMap.put(ingredient, quantity);
     }
@@ -33,20 +39,16 @@ public class IngredientReserve {
             }
         }
 
-        if (!unavailableIngredients.isEmpty() || !insufficientIngredients.isEmpty()) {
-            if(!unavailableIngredients.isEmpty()){
-                throw new InsufficientIngredientException(unavailableIngredients.iterator().next().getName(), "not available");
-            }else{
-                throw new InsufficientIngredientException(unavailableIngredients.iterator().next().getName(), "not sufficient");
-            }
+        if (!unavailableIngredients.isEmpty()) {
+            throw new UnavailableIngredientsException(unavailableIngredients);
         }
 
-        recipe.getIngredients().forEach(new BiConsumer<Ingredient, Integer>() {
-            @Override
-            public void accept(Ingredient ingredient, Integer integer) {
-                IngredientReserve.this.fillIngredient(ingredient, (ingredientQuantityMap.get(ingredient) - recipe.getIngredients().get(ingredient)));
-            }
-        });
+        if (!insufficientIngredients.isEmpty()) {
+            throw new InsufficientIngredientsQuantityException(insufficientIngredients);
+        }
 
+        recipe.getIngredients().forEach((ingredient, integer) -> {
+            setIngredientQuantity(ingredient, (ingredientQuantityMap.get(ingredient) - recipe.getIngredients().get(ingredient)));
+        });
     }
 }

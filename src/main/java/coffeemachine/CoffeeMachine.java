@@ -1,3 +1,12 @@
+package coffeemachine;
+
+import beverages.BeverageCatalogue;
+import beverages.Recipe;
+import exceptions.BeverageNotFoundException;
+import exceptions.InsufficientIngredientsQuantityException;
+import exceptions.UnavailableIngredientsException;
+import ingredients.Ingredient;
+import ingredients.IngredientReserve;
 import javafx.util.Pair;
 
 import java.util.List;
@@ -15,7 +24,7 @@ public class CoffeeMachine {
     }
 
     public void fillIngredient(String ingredientName, Integer quantity) {
-        this.ingredientReserve.fillIngredient(new Ingredient(ingredientName), quantity);
+        this.ingredientReserve.setIngredientQuantity(new Ingredient(ingredientName), quantity);
     }
 
    public void addNewBeverage(String beverageName, List<Pair<String, Integer>> ingredients) {
@@ -28,10 +37,12 @@ public class CoffeeMachine {
             Recipe recipe = this.beverageCatalogue.getRecipeForBeverage(beverageName);
             this.ingredientReserve.dispenseIngredientsForRecipe(recipe);
             makeBeverage(beverageName);
-        } catch (BeverageRecipeNotFoundException ex){
-            System.out.println("Recipe for " + beverageName + " not found");
-        } catch (InsufficientIngredientException ex){
-            System.out.println(beverageName + " cannot be prepared because " + ex.name + " is " + ex.status);
+        } catch (BeverageNotFoundException ex) {
+            System.out.println(ex.getBeverageName() + " not found");
+        } catch (InsufficientIngredientsQuantityException ex){
+            System.out.println(beverageName + " cannot be prepared because " + ex.getInsufficientIngredients() + " is/are insufficient.");
+        } catch (UnavailableIngredientsException ex) {
+            System.out.println(beverageName + " cannot be prepared because " + ex.getUnavailableIngredientsException() + " is/are unavailable.");
         }
     }
 

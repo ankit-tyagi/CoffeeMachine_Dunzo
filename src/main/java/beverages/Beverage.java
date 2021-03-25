@@ -1,3 +1,5 @@
+package beverages;
+
 import java.util.Objects;
 
 public class Beverage {
@@ -34,7 +36,7 @@ public class Beverage {
 
     @Override
     public String toString() {
-        return "Beverage{" +
+        return "beverages.Beverage{" +
                 "name='" + name + '\'' +
                 ", recipe=" + recipe +
                 '}';
