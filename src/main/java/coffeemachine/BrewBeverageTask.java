@@ -7,12 +7,13 @@ import exceptions.UnavailableIngredientsException;
 import ingredients.IngredientReserve;
 
 /**
- * This class is the main handler for serving a brewing. It manages of end-to-end life cycle of a serve/brew beverage by
- * coordinating activities across multiple sub operations like - dispensing ingredients from reservoir to mixing chamber,
- * Moving the beverage from mixing chamber to boiling chamber and then dispensing the beverage to one of the outlets.
+ * This class is the main handler for serving a beverage. It manages of end-to-end life cycle of a serve/brew beverage
+ * request by coordinating activities across multiple sub operations like - dispensing ingredients from reservoir to
+ * mixing chamber, Moving the beverage from mixing chamber to boiling chamber and then dispensing the beverage to one
+ * of the outlets.
  *
  * Note: For demo purposes, this class only have 1 sub operation - Dispensing the ingredients from reservoir. As soon
- * as ingredients are release from reservoir, this class considers beverage to have been served and prints a message to
+ * as ingredients are released from reservoir, this class considers beverage to have been served and prints a message to
  * system.out.
  */
 public class BrewBeverageTask implements Runnable {

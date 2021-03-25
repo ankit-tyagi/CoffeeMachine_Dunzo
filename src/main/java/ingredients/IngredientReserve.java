@@ -11,13 +11,13 @@ import java.util.Map;
 
 /**
  * Ingredient Reserve does what the name suggests. It acts as the reserve of ingredients that the coffee machine has.
- * Whenever a beverage is to be made, ingredients from this reserve are used and similar when coffee machine is reloaded
- * with more ingredients, they go to ingredients reserve.
+ * Whenever a beverage is to be made, ingredients from this reserve are used and similarly when coffee machine is reloaded
+ * with more ingredients, they go to ingredient reserve.
  *
  * Internally, this class ensures that only 1 thread at a time is operating on the reservoir. It can either be dispense
- * ingredients for a 1 recipe at a time or fill ingredients back. Synchronization at this point ensures that we do not have race
- * condition when serving multiple beverage because only 1 beverage ingredients can be release by the reservoir at a
- * time and if any beverage finds reservoir to have insufficient or unavailable ingredients, it see valid state.
+ * ingredients for 1 recipe at a time or fill ingredients back. Synchronization at this point ensures that we do not have race
+ * condition when serving multiple beverages because only 1 beverage ingredients can be released by the reservoir at a
+ * time and if any beverage finds reservoir to have insufficient or unavailable ingredients, it sees valid state.
  */
 public class IngredientReserve {
 
