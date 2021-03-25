@@ -1,12 +1,12 @@
 package beverages;
 
-import exceptions.BeverageNotFoundException;
 import ingredients.Ingredient;
 import javafx.util.Pair;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class BeverageCatalogue {
 
@@ -28,12 +28,8 @@ public class BeverageCatalogue {
         this.beverageByName.put(beverageName, beverage);
     }
 
-    public Recipe getRecipeForBeverage(String beverageName) {
+    public Optional<Beverage> getBeverage(String beverageName) {
 
-        if (beverageByName.containsKey(beverageName)) {
-            return this.beverageByName.get(beverageName).getRecipe();
-        } else {
-            throw new BeverageNotFoundException(beverageName);
-        }
+        return Optional.ofNullable(beverageByName.get(beverageName));
     }
 }

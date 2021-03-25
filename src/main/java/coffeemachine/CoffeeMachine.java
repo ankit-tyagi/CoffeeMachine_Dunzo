@@ -1,24 +1,26 @@
 package coffeemachine;
 
-import beverages.BeverageCatalogue;
-import beverages.Recipe;
-import exceptions.BeverageNotFoundException;
-import exceptions.InsufficientIngredientsQuantityException;
-import exceptions.UnavailableIngredientsException;
+import beverages.Beverage;
+import beverages.BeverageCatalogue;;
 import ingredients.Ingredient;
 import ingredients.IngredientReserve;
 import javafx.util.Pair;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-public class CoffeeMachine {
+public class CoffeeMachine implements AutoCloseable {
 
-    private final int n;
     private final IngredientReserve ingredientReserve;
     private final BeverageCatalogue beverageCatalogue;
+    private final ExecutorService executorService;
 
     public CoffeeMachine(int n, IngredientReserve ingredientReserve, BeverageCatalogue beverageCatalogue) {
-        this.n = n;
+
+        this.executorService = Executors.newFixedThreadPool(n);
         this.ingredientReserve = ingredientReserve;
         this.beverageCatalogue = beverageCatalogue;
     }
@@ -27,26 +29,35 @@ public class CoffeeMachine {
         this.ingredientReserve.setIngredientQuantity(new Ingredient(ingredientName), quantity);
     }
 
-   public void addNewBeverage(String beverageName, List<Pair<String, Integer>> ingredients) {
+    public void addNewBeverage(String beverageName, List<Pair<String, Integer>> ingredients) {
         this.beverageCatalogue.registerNewBeverage(beverageName, ingredients);
-   }
+    }
 
     public void serveBeverage(String beverageName) {
 
-        try {
-            Recipe recipe = this.beverageCatalogue.getRecipeForBeverage(beverageName);
-            this.ingredientReserve.dispenseIngredientsForRecipe(recipe);
-            makeBeverage(beverageName);
-        } catch (BeverageNotFoundException ex) {
-            System.out.println(ex.getBeverageName() + " not found");
-        } catch (InsufficientIngredientsQuantityException ex){
-            System.out.println(beverageName + " cannot be prepared because " + ex.getInsufficientIngredients() + " is/are insufficient.");
-        } catch (UnavailableIngredientsException ex) {
-            System.out.println(beverageName + " cannot be prepared because " + ex.getUnavailableIngredientsException() + " is/are unavailable.");
+        Optional<Beverage> beverage = this.beverageCatalogue.getBeverage(beverageName);
+        if (beverage.isPresent()) {
+            BrewBeverageTask task = new BrewBeverageTask(beverage.get(), ingredientReserve);
+            executorService.submit(task);
+        } else {
+            System.out.println(beverageName + " not found");
         }
     }
 
-    private void makeBeverage(String beverageName) {
-        System.out.println(beverageName + " is prepared");
+    @Override
+    public void close() {
+
+        this.executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+                executorService.shutdownNow();
+                if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+                    System.err.println("Executor Service did not shutdown");
+                }
+            }
+        } catch (InterruptedException ex) {
+            executorService.shutdownNow();
+            Thread.currentThread().interrupt(); // Preserve interrupt status
+        }
     }
 }
